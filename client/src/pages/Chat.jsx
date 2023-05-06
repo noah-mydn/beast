@@ -4,7 +4,7 @@ import { ChatList } from "../components/ChatList/ChatList";
 import { Navbar } from "../components/Navigation/Navbar";
 import { ChatArea } from "../components/ChatArea/ChatArea";
 
-export const Chat = () => {
+export const Chat = ({ IsTablet, user }) => {
   return (
     <Grid
       container
@@ -18,12 +18,12 @@ export const Chat = () => {
       }}
     >
       <Grid item md={4} height="100%" display={{ md: "block", xs: "none" }}>
-        <ChatList />
+        <ChatList IsTablet={IsTablet} />
       </Grid>
 
       <Grid item md={8} xs={12} height="100%">
         <Grid item xs={12} height="7%">
-          <Navbar />
+          <Navbar user={user} />
         </Grid>
         <Grid
           item

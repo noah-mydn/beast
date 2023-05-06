@@ -11,10 +11,17 @@ import {
 } from "../../styledComponents/searchBar";
 import SearchIcon from "@mui/icons-material/Search";
 import ScrollableFeed from "react-scrollable-feed";
+import { theme } from "../../theme/theme";
 
-export const ChatList = () => {
+export const ChatList = ({ IsTablet }) => {
   return (
-    <ChatListContainer>
+    <ChatListContainer
+      sx={{
+        borderRight: IsTablet
+          ? "none"
+          : `2px solid ${theme.palette.info.light}`,
+      }}
+    >
       <Search>
         <SearchIconWrapper>
           <SearchIcon color="primary.light" />

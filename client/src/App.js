@@ -17,13 +17,13 @@ function App() {
     if (!userInfo) navigate("/");
   }, [navigate]);
 
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+  const IsMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const IsTablet = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Routes>
-      <Route path="/" element={<Auth isMobile={isMobile} />} />
-      <Route path="/chat" element={<Chat user={user} isMobile={isMobile} />} />
+      <Route path="/" element={<Auth IsMobile={IsMobile} />} />
+      <Route path="/chat" element={<Chat user={user} IsTablet={IsTablet} />} />
     </Routes>
   );
 }

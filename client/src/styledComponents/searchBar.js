@@ -1,4 +1,3 @@
-import { theme } from "../theme/theme";
 const { default: styled } = require("@emotion/styled");
 const { Box, InputBase } = require("@mui/material");
 
