@@ -16,7 +16,7 @@ export const Account = ({ anchorEl, open, logOut, handleClose }) => {
         sx: {
           paddingY: "0.5em",
           background: "#fff",
-          color: theme.palette.error.main,
+          color: theme.palette.secondary.main,
           overflow: "visible",
           filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
           mt: 1.5,
@@ -45,7 +45,7 @@ export const Account = ({ anchorEl, open, logOut, handleClose }) => {
     >
       <MenuItem onClick={logOut}>
         <ListItemIcon>
-          <LogoutIcon fontSize="small" color="error" />
+          <LogoutIcon fontSize="small" color="secondary" />
         </ListItemIcon>
         Logout
       </MenuItem>

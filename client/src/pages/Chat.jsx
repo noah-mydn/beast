@@ -3,8 +3,10 @@ import React from "react";
 import { ChatList } from "../components/ChatList/ChatList";
 import { Navbar } from "../components/Navigation/Navbar";
 import { ChatArea } from "../components/ChatArea/ChatArea";
+import { ToastContainer } from "react-toastify";
 
-export const Chat = ({ IsTablet, user }) => {
+export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
+  const [selectedChat, setSelectedChat] = React.useState();
   return (
     <Grid
       container
@@ -14,26 +16,44 @@ export const Chat = ({ IsTablet, user }) => {
         height: "100vh",
         justifyContent: "center",
         alignItems: "center",
-        background: "linear-gradient(315deg, #d9e4f5 0%, #f5e3e6 74%)",
+        background: "#efefef",
       }}
     >
+      <ToastContainer />
       <Grid item md={4} height="100%" display={{ md: "block", xs: "none" }}>
-        <ChatList IsTablet={IsTablet} />
+        <ChatList
+          IsTablet={IsTablet}
+          user={user}
+          chats={chats}
+          setChats={setChats}
+          chatLoading={chatLoading}
+          selectedChat={selectedChat}
+          setSelectedChat={setSelectedChat}
+        />
       </Grid>
 
       <Grid item md={8} xs={12} height="100%">
         <Grid item xs={12} height="7%">
-          <Navbar user={user} />
+          <Navbar
+            user={user}
+            chats={chats}
+            setChats={setChats}
+            chatLoading={chatLoading}
+          />
         </Grid>
         <Grid
           item
           xs={12}
           height="92%"
           sx={{
-            background: "linear-gradient(315deg, #d9e4f5 0%, #f5e3e6 74%)",
+            background: "#efefef",
           }}
         >
-          <ChatArea />
+          <ChatArea
+            user={user}
+            selectedChat={selectedChat}
+            setSelectedChat={setSelectedChat}
+          />
         </Grid>
       </Grid>
     </Grid>

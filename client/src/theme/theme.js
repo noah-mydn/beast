@@ -3,12 +3,11 @@ import { createTheme } from "@mui/material";
 export const theme = createTheme({
   palette: {
     primary: {
-      main: "#FF3533",
+      main: "#EB5353",
     },
 
     secondary: {
-      main: "#FFE475",
-      dark: "#FFD529",
+      main: "#676FA3",
     },
 
     error: {
@@ -16,13 +15,15 @@ export const theme = createTheme({
     },
 
     info: {
-      main: "#28CACC",
+      main: "#CDDEFF",
+    },
+
+    text: {
+      main: "#EEF2FF",
     },
   },
 
   typography: {
-    fontFamily: ["Blinker", "Dosis", "Bruno Ace", "cursive", "sans-serif"].join(
-      ","
-    ),
+    fontFamily: ["Blinker", "Dosis", "cursive", "sans-serif"].join(","),
   },
 });

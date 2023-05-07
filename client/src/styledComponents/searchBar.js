@@ -4,8 +4,8 @@ const { Box, InputBase } = require("@mui/material");
 export const Search = styled(Box)(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: "#fff",
-  marginTop: "1em",
+  backgroundColor: theme.palette.secondary.light,
+
   width: "85%",
 }));
 
@@ -27,5 +27,6 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
+    color: "#fff",
   },
 }));

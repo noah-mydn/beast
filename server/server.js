@@ -4,7 +4,10 @@ const http = require("http");
 const cors = require("cors");
 const { Server, Socket } = require("socket.io");
 const connectToDB = require("./mongodb/database");
+
+//Routers
 const userRouter = require("./routes/userRoute");
+const chatRouter = require("./routes/chatRoute");
 
 dotenv.config();
 connectToDB();
@@ -18,6 +21,7 @@ app.use(
 );
 
 app.use("/api/user", userRouter);
+app.use("/api/chat", chatRouter);
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {

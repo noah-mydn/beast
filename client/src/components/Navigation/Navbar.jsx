@@ -7,7 +7,7 @@ import { ChatList } from "../ChatList/ChatList";
 import { Avatar } from "../../styledComponents/chatArea";
 import { Account } from "../UserMenu/Account";
 
-export const Navbar = ({ user }) => {
+export const Navbar = ({ user, chats, chatLoading, setChats }) => {
   //For Drawer(Mobile ChatList)
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
@@ -15,7 +15,15 @@ export const Navbar = ({ user }) => {
     setOpenDrawer(!openDrawer);
   };
 
-  const drawer = <ChatList IsTablet="true" />;
+  const drawer = (
+    <ChatList
+      IsTablet="true"
+      user={user}
+      chats={chats}
+      chatLoading={chatLoading}
+      setChats={setChats}
+    />
+  );
 
   //For User Menu
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,13 +51,14 @@ export const Navbar = ({ user }) => {
           marginLeft: 1,
         }}
       >
-        <GroupIcon color="error" />
+        <GroupIcon color="secondary" />
       </IconButton>
       <Drawer
         PaperProps={{
           sx: {
-            background: "#d9e4f5",
+            background: "#efefef",
             height: "100vh",
+            padding: "0.5em",
           },
         }}
         sx={{ maxWidth: 270 }}
@@ -61,10 +70,10 @@ export const Navbar = ({ user }) => {
         {drawer}
       </Drawer>
       <IconButton mx={2} size="small">
-        <NotificationsIcon color="error" />
+        <NotificationsIcon color="secondary" />
       </IconButton>
       <IconButton mx={2} size="small">
-        <PersonIcon color="error" />
+        <PersonIcon color="secondary" />
       </IconButton>
       <Avatar
         sx={{ cursor: "pointer" }}

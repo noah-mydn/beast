@@ -1,9 +1,9 @@
+import { theme } from "../theme/theme";
+
 const { default: styled } = require("@emotion/styled");
 const { Box } = require("@mui/material");
 
 export const ChatListContainer = styled(Box)({
-  width: "90%",
-  height: "100%",
   padding: 0,
   display: "flex",
   flexDirection: "column",
@@ -11,15 +11,17 @@ export const ChatListContainer = styled(Box)({
 });
 
 export const ChatListItem = styled(Box)({
+  cursor: "pointer",
   marginTop: "1em",
-  padding: "0.3em",
+  padding: "0.4em",
   width: "95%",
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
   background: "#fff",
+  // background: theme.palette.info.dark,
   borderRadius: 4,
-  boxShadow: "0 0 7px 1px rgba(0, 0, 0, .3)",
+  boxShadow: "0 2px 6px 1px rgba(0, 0, 0, .2)",
 });
 
 export const MainChatArea = styled(Box)({
@@ -28,14 +30,16 @@ export const MainChatArea = styled(Box)({
   height: "95%",
   width: "97%",
   paddingBottom: "0.5em",
-  background: "#d9e4f5",
-  backgroundImage: "#fff",
+  background: "#fff",
   boxShadow: "0 0 4px 1px rgba(0, 0, 0, .5)",
   overflow: "hidden",
+  position: "relative",
 });
 
 export const ChatTitle = styled(Box)(({ theme }) => ({
-  background: theme.palette.primary.light,
+  //background: theme.palette.primary.light,
+  borderBottom: `2px double ${theme.palette.secondary.light}`,
+  margin: "0 0.5em",
   borderTopLeftRadius: 8,
   borderTopRightRadius: 8,
   padding: "0.5em",
@@ -61,13 +65,14 @@ export const ChatContent = styled(Box)({
 });
 
 export const TextRegion = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  bottom: 0,
   width: "100%",
   height: "auto",
   marginTop: "0.5em",
   padding: "0.5em 0.2em",
-  position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: "#fff",
+  background: theme.palette.secondary.light,
   display: "flex",
   WebkitOverflowScrolling: "auto",
   justifyContent: "space-between",
@@ -75,7 +80,6 @@ export const TextRegion = styled(Box)(({ theme }) => ({
 }));
 
 export const AttachMentIconWrapper = styled(Box)(({ theme }) => ({
-  position: "absolute",
   pointerEvents: "none",
   display: "flex",
   alignItems: "center",

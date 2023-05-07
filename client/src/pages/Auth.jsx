@@ -4,7 +4,7 @@ import { Login } from "../components/Auth/Login";
 import { Register } from "../components/Auth/Register";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 export const Auth = ({ isMobile }) => {
   const [isLoginPage, setIsLoginPage] = React.useState(true);
@@ -164,6 +164,7 @@ export const Auth = ({ isMobile }) => {
       flexDirection="column"
       minHeight="100vh"
     >
+      <ToastContainer />
       <Typography
         variant={isMobile ? "h5" : "h3"}
         color="#fff"
@@ -173,7 +174,7 @@ export const Auth = ({ isMobile }) => {
       </Typography>
       {loading && (
         <Box sx={{ display: "flex" }}>
-          <CircularProgress color="secondary" />
+          <CircularProgress color="text" />
         </Box>
       )}
       {isLoginPage ? (
