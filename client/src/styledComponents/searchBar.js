@@ -4,8 +4,7 @@ const { Box, InputBase } = require("@mui/material");
 export const Search = styled(Box)(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.secondary.light,
-
+  background: `linear-gradient(90deg , ${theme.palette.secondary.light},${theme.palette.primary.light})`,
   width: "85%",
 }));
 

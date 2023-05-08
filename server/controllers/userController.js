@@ -82,3 +82,19 @@ exports.getAllUsers = async (req, res) => {
     });
   }
 };
+
+//Search User By Id
+exports.getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    res.status(200).json({
+      status: "success",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "falied",
+      message: error.message,
+    });
+  }
+};

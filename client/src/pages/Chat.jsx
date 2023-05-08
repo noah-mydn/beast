@@ -6,7 +6,13 @@ import { ChatArea } from "../components/ChatArea/ChatArea";
 import { ToastContainer } from "react-toastify";
 
 export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
+  //For the chat
   const [selectedChat, setSelectedChat] = React.useState();
+
+  //For Messaging
+  const [messages, setMessages] = React.useState([]);
+  const [newMessage, setNewMessage] = React.useState("");
+  const [messageLoading, setMessageLoading] = React.useState(false);
   return (
     <Grid
       container
@@ -29,6 +35,8 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
           chatLoading={chatLoading}
           selectedChat={selectedChat}
           setSelectedChat={setSelectedChat}
+          messages={messages}
+          messageLoading={messageLoading}
         />
       </Grid>
 
@@ -39,6 +47,9 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
             chats={chats}
             setChats={setChats}
             chatLoading={chatLoading}
+            selectedChat={selectedChat}
+            setSelectedChat={setSelectedChat}
+            messages={messages}
           />
         </Grid>
         <Grid
@@ -53,6 +64,12 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
             user={user}
             selectedChat={selectedChat}
             setSelectedChat={setSelectedChat}
+            messages={messages}
+            setMessages={setMessages}
+            newMessage={newMessage}
+            setNewMessage={setNewMessage}
+            messageLoading={messageLoading}
+            setMessageLoading={setMessageLoading}
           />
         </Grid>
       </Grid>

@@ -38,7 +38,9 @@ body {
 
 .boxShadow {
   width: 85%;
-  background: #858bb5;
+  /* background: #858bb5; */
+  /* background:rgb(239, 117, 117); */
+  background:linear-gradient(to right,#858bb5,rgb(239, 117, 117) );
   margin-top: 0.8em;
   border-radius: 0.5em;
   padding:0.5em;

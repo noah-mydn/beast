@@ -7,7 +7,16 @@ import { ChatList } from "../ChatList/ChatList";
 import { Avatar } from "../../styledComponents/chatArea";
 import { Account } from "../UserMenu/Account";
 
-export const Navbar = ({ user, chats, chatLoading, setChats }) => {
+export const Navbar = ({
+  user,
+  chats,
+  chatLoading,
+  setChats,
+  selectedChat,
+  setSelectedChat,
+  messages,
+  messageLoading,
+}) => {
   //For Drawer(Mobile ChatList)
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
@@ -22,6 +31,10 @@ export const Navbar = ({ user, chats, chatLoading, setChats }) => {
       chats={chats}
       chatLoading={chatLoading}
       setChats={setChats}
+      selectedChat={selectedChat}
+      setSelectedChat={setSelectedChat}
+      messages={messages}
+      messageLoading={messageLoading}
     />
   );
 

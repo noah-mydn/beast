@@ -16,8 +16,55 @@ import {
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import axios from "axios";
+import { ScrollableChat } from "../ScrollableChat/ScrollableChat";
 
-export const ChatArea = ({ user, selectedChat, setSelectedChat }) => {
+export const ChatArea = ({
+  user,
+  selectedChat,
+  setSelectedChat,
+  messages,
+  setMessages,
+  newMessage,
+  setNewMessage,
+  messageLoading,
+  setMessageLoading,
+}) => {
+  //For Scrolling
+  const scroll = React.useRef();
+
+  const handleChange = (newMessage) => {
+    setNewMessage(newMessage);
+  };
+
+  //Fetch Messages
+  React.useEffect(() => {
+    const fetchMessages = async () => {
+      console.log(selectedChat?._id);
+      try {
+        setMessageLoading(true);
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        };
+        const { data } = await axios.get(
+          `http://localhost:5000/api/message/${selectedChat?._id}`,
+          config
+        );
+        setMessages(data);
+        console.log(messages);
+        setMessageLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (selectedChat) fetchMessages();
+  }, [selectedChat]);
+
+  //Setting Scroll to last Message
+  React.useEffect(() => {}, [messages]);
+
   const defaultImage =
     "https://img.freepik.com/free-vector/cute-penguin-wearing-earmuff-cartoon_138676-3029.jpg";
   //Extracting friend from the chat member arrays
@@ -26,7 +73,8 @@ export const ChatArea = ({ user, selectedChat, setSelectedChat }) => {
 
     return friend;
   };
-  console.log(selectedChat);
+  //console.log(selectedChat);
+
   return (
     <MainChatArea>
       <ChatTitle>
@@ -50,7 +98,14 @@ export const ChatArea = ({ user, selectedChat, setSelectedChat }) => {
           {selectedChat ? friendInfo(selectedChat)[0].username : "Username"}
         </Typography>
       </ChatTitle>
-      <ChatContent></ChatContent>
+      <ChatContent>
+        <ScrollableChat
+          user={user}
+          messages={messages}
+          messageLoading={messageLoading}
+          newMessage={newMessage}
+        />
+      </ChatContent>
       <TextRegion>
         <AttachMentIconWrapper>
           <AttachFileIcon color="text" />

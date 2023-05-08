@@ -25,6 +25,8 @@ export const ChatList = ({
   chatLoading,
   selectedChat,
   setSelectedChat,
+  messages,
+  messageLoading,
 }) => {
   const [search, setSearch] = React.useState("");
   const [keywordResult, setKeywordResult] = React.useState([]);

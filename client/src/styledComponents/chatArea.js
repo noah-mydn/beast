@@ -38,7 +38,7 @@ export const MainChatArea = styled(Box)({
 
 export const ChatTitle = styled(Box)(({ theme }) => ({
   //background: theme.palette.primary.light,
-  borderBottom: `2px double ${theme.palette.secondary.light}`,
+  borderBottom: `2px double ${theme.palette.primary.light}`,
   margin: "0 0.5em",
   borderTopLeftRadius: 8,
   borderTopRightRadius: 8,
@@ -72,7 +72,7 @@ export const TextRegion = styled(Box)(({ theme }) => ({
   marginTop: "0.5em",
   padding: "0.5em 0.2em",
   borderRadius: theme.shape.borderRadius,
-  background: theme.palette.secondary.light,
+  background: `linear-gradient(90deg , ${theme.palette.secondary.light},${theme.palette.primary.light})`,
   display: "flex",
   WebkitOverflowScrolling: "auto",
   justifyContent: "space-between",
@@ -91,6 +91,7 @@ export const BubbleTextContainer = styled(Box)({
   display: "flex",
   margin: "1em 0",
   alignItems: "center",
+  padding: " 0 0.5em",
 });
 
 export const BubbleTextImg = styled(Box)({
@@ -101,8 +102,10 @@ export const BubbleTextImg = styled(Box)({
   marginRight: "0.3em",
 });
 
-export const BubbleText = styled(Box)({
+export const BubbleText = styled(Box)(({ IsMeTheSender }) => ({
   borderRadius: 8,
-  background: "#cecece",
+  background: IsMeTheSender
+    ? theme.palette.secondary.main
+    : theme.palette.primary.light,
   padding: "0.5em",
-});
+}));
