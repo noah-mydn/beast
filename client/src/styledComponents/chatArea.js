@@ -62,6 +62,8 @@ export const ChatContent = styled(Box)({
   flexDirection: "column",
   scrollbarWidth: "none",
   overflowY: "auto",
+  scrollBehavior: "smooth",
+  scrollbarWidth: "2px",
 });
 
 export const TextRegion = styled(Box)(({ theme }) => ({
@@ -89,8 +91,8 @@ export const AttachMentIconWrapper = styled(Box)(({ theme }) => ({
 
 export const BubbleTextContainer = styled(Box)({
   display: "flex",
+  flexDirection: "column",
   margin: "1em 0",
-  alignItems: "center",
   padding: " 0 0.5em",
 });
 
@@ -103,9 +105,22 @@ export const BubbleTextImg = styled(Box)({
 });
 
 export const BubbleText = styled(Box)(({ IsMeTheSender }) => ({
+  width: "50%",
   borderRadius: 8,
   background: IsMeTheSender
     ? theme.palette.secondary.main
     : theme.palette.primary.light,
   padding: "0.5em",
+  marginLeft: IsMeTheSender ? "auto" : "0.3em",
+  marginRight: IsMeTheSender ? "0.3em" : "auto",
+  color: "#fff",
+}));
+
+export const TimeStamp = styled("span")(({ IsMeTheSender }) => ({
+  marginLeft: IsMeTheSender ? "auto" : "4em",
+  marginRight: IsMeTheSender ? "1em" : "auto",
+  color: "#9f9f9f",
+  fontSize: 12,
+  fontStyle: "italic",
+  fontFamily: "Dosis",
 }));

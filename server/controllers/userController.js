@@ -62,7 +62,7 @@ exports.LoginUser = async (req, res) => {
 };
 
 //Searching Users
-exports.getAllUsers = async (req, res) => {
+exports.searchUsers = async (req, res) => {
   try {
     const keyword = req.query.search
       ? {
@@ -73,7 +73,9 @@ exports.getAllUsers = async (req, res) => {
         }
       : {};
 
-    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+    const users = req.query.search
+      ? await User.find(keyword).find({ _id: { $ne: req.user._id } })
+      : await User.find();
     res.send(users);
   } catch (error) {
     res.status(500).json({

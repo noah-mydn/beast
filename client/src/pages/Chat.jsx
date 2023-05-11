@@ -5,7 +5,17 @@ import { Navbar } from "../components/Navigation/Navbar";
 import { ChatArea } from "../components/ChatArea/ChatArea";
 import { ToastContainer } from "react-toastify";
 
-export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
+export const Chat = ({
+  IsTablet,
+  allUsers,
+  user,
+  chats,
+  setChats,
+  chatLoading,
+  sendMessage,
+  setSendMessage,
+  receivedMessage,
+}) => {
   //For the chat
   const [selectedChat, setSelectedChat] = React.useState();
 
@@ -70,6 +80,8 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
             setNewMessage={setNewMessage}
             messageLoading={messageLoading}
             setMessageLoading={setMessageLoading}
+            setSendMessage={setSendMessage}
+            receivedMessage={receivedMessage}
           />
         </Grid>
       </Grid>

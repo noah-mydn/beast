@@ -15,24 +15,72 @@ import {
 } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
-import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import axios from "axios";
 import { ScrollableChat } from "../ScrollableChat/ScrollableChat";
+import InputEmoji from "react-input-emoji";
 
 export const ChatArea = ({
   user,
   selectedChat,
-  setSelectedChat,
   messages,
   setMessages,
   newMessage,
   setNewMessage,
   messageLoading,
   setMessageLoading,
+  setSendMessage,
+  receivedMessage,
 }) => {
-  //For Scrolling
-  const scroll = React.useRef();
+  //Sending Messages
+  const handleSend = async () => {
+    if (newMessage === "") return;
+    const message = {
+      senderId: user?.data._id,
+      message: newMessage,
+      chatId: selectedChat?._id,
+    };
 
+    const receiverId = selectedChat.members.find(
+      (member) => member._id !== user?.data._id
+    )?._id;
+
+    //Send Message to socket server
+    setSendMessage({ ...message, receiverId });
+    //Send Message to database
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        "http://localhost:5000/api/message",
+        message,
+        config
+      );
+
+      setMessages([...messages, data]);
+      setNewMessage("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //Receiving Messages
+  React.useEffect(() => {
+    console.log("Message received -", receivedMessage);
+    if (
+      receivedMessage !== null &&
+      receivedMessage?.chatId === selectedChat._id
+    ) {
+      console.log(receivedMessage);
+      setMessages([...messages, receivedMessage]);
+    }
+  }, [receivedMessage]);
+  console.log("Receive Message - ", receivedMessage);
+
+  //New Message on Change
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
   };
@@ -63,7 +111,10 @@ export const ChatArea = ({
   }, [selectedChat]);
 
   //Setting Scroll to last Message
-  React.useEffect(() => {}, [messages]);
+  const scroll = React.useRef();
+  React.useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const defaultImage =
     "https://img.freepik.com/free-vector/cute-penguin-wearing-earmuff-cartoon_138676-3029.jpg";
@@ -74,6 +125,7 @@ export const ChatArea = ({
     return friend;
   };
   //console.log(selectedChat);
+  const image = React.useRef();
 
   return (
     <MainChatArea>
@@ -104,32 +156,35 @@ export const ChatArea = ({
           messages={messages}
           messageLoading={messageLoading}
           newMessage={newMessage}
+          scroll={scroll}
+          friendInfo={friendInfo}
+          selectedChat={selectedChat}
         />
       </ChatContent>
       <TextRegion>
-        <AttachMentIconWrapper>
+        {/* <IconButton onClick={() => image.current.click()}>
           <AttachFileIcon color="text" />
-        </AttachMentIconWrapper>
-        <InputBase
-          style={{ color: "white" }}
-          // onKeyDown={(e) => sendMessageOnEnter(e)}
-          // onChange={(e) => setNewMessage(e.target.value)}
-          sx={{ ml: 2, flex: 1 }}
-          multiline
-          maxRows={2}
-          placeholder="Hello..."
-          inputProps={{ "aria-label": "send message" }}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton size="small">
-                <EmojiEmotionsIcon color="text" />
-              </IconButton>
-              <IconButton size="small">
-                <SendIcon color="text" />
-              </IconButton>
-            </InputAdornment>
-          }
+        </IconButton>
+        <input
+          type="file"
+          name=""
+          id=""
+          ref={image}
+          style={{ display: "none" }}
+          accept="image/*"
+        /> */}
+
+        <InputEmoji
+          value={newMessage}
+          onChange={handleChange}
+          cleanOnEnter
+          theme="light"
+          onEnter={handleSend}
         />
+        <IconButton size="small" onClick={handleSend}>
+          <SendIcon color="text" />
+        </IconButton>
+        {/* </InputAdornment> */}
       </TextRegion>
     </MainChatArea>
   );

@@ -146,7 +146,8 @@ export const ChatList = ({
       <ScrollableFeed className="boxShadow">
         {chatLoading && <ChatSkeletons />}
         {!chatLoading &&
-          chats.map((chat) => {
+          chats !== null &&
+          chats?.map((chat) => {
             return (
               <ChatListItem
                 key={chat._id}
@@ -181,29 +182,7 @@ export const ChatList = ({
                   >
                     {friendInfo(chat)[0].username}
                   </Typography>
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      color: theme.palette.secondary.dark,
-                    }}
-                  >
-                    Some text messages are shown here
-                  </Typography>
                 </Box>
-                <Typography
-                  variant="caption"
-                  sx={{
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    color: theme.palette.secondary.dark,
-                  }}
-                >
-                  3 mins ago
-                </Typography>
               </ChatListItem>
             );
           })}
