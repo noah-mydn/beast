@@ -6,7 +6,6 @@ import { Auth } from "./pages/Auth";
 import { Chat } from "./pages/Chat";
 import React from "react";
 import axios from "axios";
-import { io } from "socket.io-client";
 
 function App() {
   const [allUsers, setAllUsers] = React.useState([]);
@@ -15,37 +14,6 @@ function App() {
   const [chats, setChats] = React.useState([]);
   const [chatLoading, setChatLoading] = React.useState(false);
   const navigate = useNavigate();
-
-  //Socket
-  const socket = React.useRef();
-  const [sendMessage, setSendMessage] = React.useState(null);
-  const [onlineUsers, setOnlineUsers] = React.useState([]);
-
-  //Connecting socket.io
-  React.useEffect(() => {
-    socket.current = io("http://localhost:5000/");
-    socket.current.emit("add-new-user", user?.data._id);
-    console.log("A user is added,", user?.data._id);
-    socket.current.on("get-online-users", (allUsers) => {
-      setOnlineUsers(allUsers);
-    });
-  }, [user]);
-  //Send Message to socket server
-  React.useEffect(() => {
-    if (sendMessage) {
-      socket.current.emit("send-message", sendMessage);
-      console.log(sendMessage);
-    }
-  }, [sendMessage]);
-
-  //Get Message from socket server
-  const [receivedMessage, setReceivedMessage] = React.useState(null);
-  React.useEffect(() => {
-    socket.current.on("receive-message", (data) => {
-      console.log(data?.receiverId);
-      setReceivedMessage(data);
-    });
-  }, []);
 
   React.useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("user"));
@@ -122,9 +90,6 @@ function App() {
             setChats={setChats}
             IsTablet={IsTablet}
             chatLoading={chatLoading}
-            receivedMessage={receivedMessage}
-            sendMessage={sendMessage}
-            setSendMessage={setSendMessage}
           />
         }
       />

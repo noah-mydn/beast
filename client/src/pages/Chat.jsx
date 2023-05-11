@@ -4,18 +4,9 @@ import { ChatList } from "../components/ChatList/ChatList";
 import { Navbar } from "../components/Navigation/Navbar";
 import { ChatArea } from "../components/ChatArea/ChatArea";
 import { ToastContainer } from "react-toastify";
+import { io } from "socket.io-client";
 
-export const Chat = ({
-  IsTablet,
-  allUsers,
-  user,
-  chats,
-  setChats,
-  chatLoading,
-  sendMessage,
-  setSendMessage,
-  receivedMessage,
-}) => {
+export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
   //For the chat
   const [selectedChat, setSelectedChat] = React.useState();
 
@@ -23,6 +14,40 @@ export const Chat = ({
   const [messages, setMessages] = React.useState([]);
   const [newMessage, setNewMessage] = React.useState("");
   const [messageLoading, setMessageLoading] = React.useState(false);
+
+  //Socket
+  const socket = React.useRef();
+  const [sendMessage, setSendMessage] = React.useState(null);
+  const [onlineUsers, setOnlineUsers] = React.useState([]);
+
+  //Connecting socket.io
+  React.useEffect(() => {
+    socket.current = io("http://localhost:8080/");
+    socket.current.emit("add-new-user", user?.data._id);
+    console.log("A user is added,", user?.data._id);
+    socket.current.on("get-online-users", (allUsers) => {
+      setOnlineUsers(allUsers);
+    });
+  }, [user][onlineUsers]);
+  //Send Message to socket server
+  React.useEffect(() => {
+    if (sendMessage) {
+      socket.current.emit("send-message", sendMessage);
+      console.log(sendMessage);
+    }
+  }, [sendMessage]);
+
+  //Get Message from socket server
+  const [receivedMessage, setReceivedMessage] = React.useState(null);
+  React.useEffect(() => {
+    socket.current.on("receive-message", (data) => {
+      console.log(data?.receiverId);
+      setReceivedMessage(data);
+    });
+  }, []);
+
+  console.log("Online Users", onlineUsers);
+  console.log("Received Message---", receivedMessage);
   return (
     <Grid
       container
