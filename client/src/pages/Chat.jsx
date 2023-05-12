@@ -5,6 +5,7 @@ import { Navbar } from "../components/Navigation/Navbar";
 import { ChatArea } from "../components/ChatArea/ChatArea";
 import { ToastContainer } from "react-toastify";
 import { io } from "socket.io-client";
+import axios from "axios";
 
 export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
   //For the chat
@@ -15,39 +16,112 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
   const [newMessage, setNewMessage] = React.useState("");
   const [messageLoading, setMessageLoading] = React.useState(false);
 
-  //Socket
+  //Connecting with socket
+  const [onlineUsers, setOnlineUsers] = React.useState(null);
+  const [getMessage, setGetMessage] = React.useState(null);
   const socket = React.useRef();
-  const [sendMessage, setSendMessage] = React.useState(null);
-  const [onlineUsers, setOnlineUsers] = React.useState([]);
 
-  //Connecting socket.io
+  //Socket Connection and arrival messages
   React.useEffect(() => {
-    socket.current = io("http://localhost:8080/");
-    socket.current.emit("add-new-user", user?.data._id);
-    console.log("A user is added,", user?.data._id);
-    socket.current.on("get-online-users", (allUsers) => {
-      setOnlineUsers(allUsers);
-    });
-  }, [user][onlineUsers]);
-  //Send Message to socket server
-  React.useEffect(() => {
-    if (sendMessage) {
-      socket.current.emit("send-message", sendMessage);
-      console.log(sendMessage);
-    }
-  }, [sendMessage]);
-
-  //Get Message from socket server
-  const [receivedMessage, setReceivedMessage] = React.useState(null);
-  React.useEffect(() => {
-    socket.current.on("receive-message", (data) => {
-      console.log(data?.receiverId);
-      setReceivedMessage(data);
+    socket.current = io("ws://localhost:8080");
+    socket.current.on("get-message", (data) => {
+      setGetMessage({
+        message: data.message,
+        senderId: data.senderId,
+      });
     });
   }, []);
 
-  console.log("Online Users", onlineUsers);
-  console.log("Received Message---", receivedMessage);
+  //Receiving Messages
+  React.useEffect(() => {
+    if (getMessage) {
+      setMessages((prev) => {
+        return [...prev, getMessage];
+      });
+    }
+    console.log(getMessage);
+    console.log(messages);
+  }, [getMessage, selectedChat]);
+
+  //Checking online users
+  React.useEffect(() => {
+    socket.current.emit("add-new-user", user?.data._id);
+    socket.current.on("get-online-users", (users) => {
+      setOnlineUsers(users);
+    });
+  });
+
+  //Sending Messages
+  const handleSend = async () => {
+    if (newMessage === "") return;
+    const message = {
+      senderId: user?.data._id,
+      message: newMessage,
+      chatId: selectedChat?._id,
+    };
+
+    const receiverId = selectedChat.members.find(
+      (member) => member._id !== user?.data._id
+    )?._id;
+
+    //Sending from socket
+    socket.current.emit("send-message", {
+      senderId: user?.data._id,
+      receiverId: receiverId,
+      message: message,
+    });
+
+    //Send Message to database
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        "http://localhost:5000/api/message",
+        message,
+        config
+      );
+
+      setMessages([...messages, data]);
+      setNewMessage("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //New Message on Change
+  const handleChange = (newMessage) => {
+    setNewMessage(newMessage);
+  };
+
+  //Fetch Messages from api
+  React.useEffect(() => {
+    const fetchMessages = async () => {
+      console.log(selectedChat?._id);
+      try {
+        setMessageLoading(true);
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        };
+        const { data } = await axios.get(
+          `http://localhost:5000/api/message/${selectedChat?._id}`,
+          config
+        );
+        setMessages(data);
+        console.log(messages);
+        setMessageLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (selectedChat) fetchMessages();
+  }, [selectedChat]);
+
   return (
     <Grid
       container
@@ -100,13 +174,10 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
             selectedChat={selectedChat}
             setSelectedChat={setSelectedChat}
             messages={messages}
-            setMessages={setMessages}
             newMessage={newMessage}
-            setNewMessage={setNewMessage}
             messageLoading={messageLoading}
-            setMessageLoading={setMessageLoading}
-            setSendMessage={setSendMessage}
-            receivedMessage={receivedMessage}
+            handleChange={handleChange}
+            handleSend={handleSend}
           />
         </Grid>
       </Grid>

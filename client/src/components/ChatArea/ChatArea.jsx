@@ -7,15 +7,10 @@ import {
   MainChatArea,
   TextRegion,
 } from "../../styledComponents/chatArea";
-import {
-  IconButton,
-  InputAdornment,
-  InputBase,
-  Typography,
-} from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
-import axios from "axios";
+
 import { ScrollableChat } from "../ScrollableChat/ScrollableChat";
 import InputEmoji from "react-input-emoji";
 
@@ -23,93 +18,11 @@ export const ChatArea = ({
   user,
   selectedChat,
   messages,
-  setMessages,
   newMessage,
-  setNewMessage,
   messageLoading,
-  setMessageLoading,
-  setSendMessage,
-  receivedMessage,
+  handleSend,
+  handleChange,
 }) => {
-  //Sending Messages
-  const handleSend = async () => {
-    if (newMessage === "") return;
-    const message = {
-      senderId: user?.data._id,
-      message: newMessage,
-      chatId: selectedChat?._id,
-    };
-
-    const receiverId = selectedChat.members.find(
-      (member) => member._id !== user?.data._id
-    )?._id;
-
-    //Send Message to socket server
-    setSendMessage({ ...message, receiverId });
-    //Send Message to database
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.token}`,
-        },
-      };
-      const { data } = await axios.post(
-        "http://localhost:5000/api/message",
-        message,
-        config
-      );
-
-      setMessages([...messages, data]);
-      setNewMessage("");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //Receiving Messages
-  React.useEffect(() => {
-    console.log("Message received -", receivedMessage);
-    if (
-      receivedMessage !== null &&
-      receivedMessage?.chatId === selectedChat._id
-    ) {
-      console.log(receivedMessage);
-      setMessages([...messages, receivedMessage]);
-    }
-  }, [receivedMessage]);
-  console.log("Receive Message - ", receivedMessage);
-
-  //New Message on Change
-  const handleChange = (newMessage) => {
-    setNewMessage(newMessage);
-  };
-
-  //Fetch Messages
-  React.useEffect(() => {
-    const fetchMessages = async () => {
-      console.log(selectedChat?._id);
-      try {
-        setMessageLoading(true);
-        const config = {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        };
-        const { data } = await axios.get(
-          `http://localhost:5000/api/message/${selectedChat?._id}`,
-          config
-        );
-        setMessages(data);
-        console.log(messages);
-        setMessageLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (selectedChat) fetchMessages();
-  }, [selectedChat]);
-
   //Setting Scroll to last Message
   const scroll = React.useRef();
   React.useEffect(() => {
@@ -162,18 +75,6 @@ export const ChatArea = ({
         />
       </ChatContent>
       <TextRegion>
-        {/* <IconButton onClick={() => image.current.click()}>
-          <AttachFileIcon color="text" />
-        </IconButton>
-        <input
-          type="file"
-          name=""
-          id=""
-          ref={image}
-          style={{ display: "none" }}
-          accept="image/*"
-        /> */}
-
         <InputEmoji
           value={newMessage}
           onChange={handleChange}
@@ -184,7 +85,6 @@ export const ChatArea = ({
         <IconButton size="small" onClick={handleSend}>
           <SendIcon color="text" />
         </IconButton>
-        {/* </InputAdornment> */}
       </TextRegion>
     </MainChatArea>
   );
