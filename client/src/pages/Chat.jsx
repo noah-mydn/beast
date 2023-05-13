@@ -20,10 +20,11 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
   const [onlineUsers, setOnlineUsers] = React.useState(null);
   const [getMessage, setGetMessage] = React.useState(null);
   const socket = React.useRef();
+  var currentChat;
 
   //Socket Connection and arrival messages
   React.useEffect(() => {
-    socket.current = io("ws://localhost:8080");
+    socket.current = io("ws://localhost:5000");
     socket.current.on("get-message", (data) => {
       setGetMessage({
         message: data.message,
@@ -32,15 +33,16 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
     });
   }, []);
 
+  //console.log(selectedChat);
+
   //Receiving Messages
   React.useEffect(() => {
-    if (getMessage) {
-      setMessages((prev) => {
-        return [...prev, getMessage];
-      });
+    if (
+      getMessage &&
+      selectedChat.members.some((member) => member._id === getMessage.senderId)
+    ) {
+      setMessages((prev) => [...prev, getMessage]);
     }
-    console.log(getMessage);
-    console.log(messages);
   }, [getMessage, selectedChat]);
 
   //Checking online users
@@ -113,13 +115,14 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
           config
         );
         setMessages(data);
-        console.log(messages);
+        //console.log(messages);
         setMessageLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     if (selectedChat) fetchMessages();
+    currentChat = selectedChat;
   }, [selectedChat]);
 
   return (

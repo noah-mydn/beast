@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
     const user = getUser(receiverId);
     console.log(user);
     console.log("Send Text from socket - ", message);
-    io.to(user.socketId).emit("get-message", message);
+    io.to(user?.socketId).emit("get-message", message);
     console.log("Receive Message from Socket -", {
       message: message,
       senderId: senderId,

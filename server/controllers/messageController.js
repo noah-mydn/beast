@@ -37,10 +37,10 @@ exports.addMessage = async (req, res) => {
 exports.fetchMessages = async (req, res) => {
   const { chatId } = req.params;
   try {
-    const result = await Message.find({ chatId }).populate({
-      path: "senderId",
-      select: "-password",
-    });
+    const result = await Message.find({ chatId }).populate(
+      "senderId",
+      "-password"
+    );
 
     // //Decryption of Message
     // const decryptedData = result.map((messageObj) => {

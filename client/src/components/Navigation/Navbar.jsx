@@ -82,12 +82,12 @@ export const Navbar = ({
       >
         {drawer}
       </Drawer>
-      <IconButton mx={2} size="small">
+      {/* <IconButton mx={2} size="small">
         <NotificationsIcon color="secondary" />
       </IconButton>
       <IconButton mx={2} size="small">
         <PersonIcon color="secondary" />
-      </IconButton>
+      </IconButton> */}
       <Avatar
         sx={{ cursor: "pointer" }}
         onClick={handleClick}

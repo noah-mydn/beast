@@ -4,7 +4,6 @@ import { Login } from "../components/Auth/Login";
 import { Register } from "../components/Auth/Register";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
 
 export const Auth = ({ isMobile }) => {
   const [isLoginPage, setIsLoginPage] = React.useState(true);
@@ -53,7 +52,6 @@ export const Auth = ({ isMobile }) => {
     if (file === undefined) {
       setLoading(false);
       //Show Toast
-      toast.error("Unsupported file");
     }
     if (file.type === "image/jpeg" || file.type === "image/png") {
       setLoading(true);
@@ -72,12 +70,10 @@ export const Auth = ({ isMobile }) => {
           setLoading(false);
           console.log(data.url.toString());
           //Show Toast
-          toast.success("Profile image is uploaded successfully!");
         })
         .catch((err) => {
           setLoading(false);
           //Show Toast
-          toast.error(err);
         });
     }
   };
@@ -102,7 +98,6 @@ export const Auth = ({ isMobile }) => {
       localStorage.setItem("user", JSON.stringify(data));
       setLoading(false);
       //Show Toast
-      toast.success("Account created successfully!");
 
       navigate("/chat");
     } catch (err) {
@@ -164,7 +159,6 @@ export const Auth = ({ isMobile }) => {
       flexDirection="column"
       minHeight="100vh"
     >
-      <ToastContainer />
       <Typography
         variant={isMobile ? "h5" : "h3"}
         color="#fff"
