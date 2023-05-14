@@ -81,7 +81,11 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
           Authorization: `Bearer ${user?.token}`,
         },
       };
-      const { data } = await axios.post("/api/message", message, config);
+      const { data } = await axios.post(
+        "http://localhost:8080/api/message",
+        message,
+        config
+      );
 
       setMessages([...messages, data]);
       setNewMessage("");
@@ -107,7 +111,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
           },
         };
         const { data } = await axios.get(
-          `/api/message/${selectedChat?._id}`,
+          `http://localhost:8080/api/message/${selectedChat?._id}`,
           config
         );
         setMessages(data);

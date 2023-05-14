@@ -33,7 +33,10 @@ function App() {
             Authorization: `Bearer ${token}`,
           },
         };
-        const { data } = await axios.get(`/api/chat/${userId}`, config);
+        const { data } = await axios.get(
+          `http://localhost:8080/api/chat/${userId}`,
+          config
+        );
         setChats(data);
         setChatLoading(false);
       } catch (error) {
@@ -55,7 +58,7 @@ function App() {
       try {
         setAllUsersLoading(true);
         const { data } = await axios.get(
-          "http://localhost:5000/api/user/",
+          "http://localhost:8080/api/user/",
           config
         );
         setAllUsers(data);
