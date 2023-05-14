@@ -79,7 +79,7 @@ app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
 
 // Deployment
-const __dirname1 = path.resolve(__dirname, "..");
+const __dirname1 = path.resolve();
 
 if (process.env.NODE_ENV === "production") {
   console.log(__dirname1);
