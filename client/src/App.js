@@ -34,7 +34,7 @@ function App() {
           },
         };
         const { data } = await axios.get(
-          `https://chat-app-beast.onrender.com//api/chat/${userId}`,
+          `https://chat-app-beast.onrender.com/api/chat/${userId}`,
           config
         );
         setChats(data);
@@ -58,7 +58,7 @@ function App() {
       try {
         setAllUsersLoading(true);
         const { data } = await axios.get(
-          "https://chat-app-beast.onrender.com//api/user/",
+          "https://chat-app-beast.onrender.com/api/user/",
           config
         );
         setAllUsers(data);

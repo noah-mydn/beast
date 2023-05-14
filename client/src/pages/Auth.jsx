@@ -119,7 +119,7 @@ export const Auth = ({ isMobile }) => {
       };
 
       const { data } = await axios.post(
-        "https://chat-app-beast.onrender.com//api/user/login",
+        "https://chat-app-beast.onrender.com/api/user/login",
         loginFormData,
         config
       );
