@@ -81,11 +81,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
           Authorization: `Bearer ${user?.token}`,
         },
       };
-      const { data } = await axios.post(
-        "https://chat-app-beast.onrender.com/api/message",
-        message,
-        config
-      );
+      const { data } = await axios.post("/api/message", message, config);
 
       setMessages([...messages, data]);
       setNewMessage("");
@@ -111,7 +107,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
           },
         };
         const { data } = await axios.get(
-          `https://chat-app-beast.onrender.com/api/message/${selectedChat?._id}`,
+          `/api/message/${selectedChat?._id}`,
           config
         );
         setMessages(data);

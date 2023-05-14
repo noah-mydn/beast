@@ -33,10 +33,7 @@ function App() {
             Authorization: `Bearer ${token}`,
           },
         };
-        const { data } = await axios.get(
-          `https://chat-app-beast.onrender.com/api/chat/${userId}`,
-          config
-        );
+        const { data } = await axios.get(`/api/chat/${userId}`, config);
         setChats(data);
         setChatLoading(false);
       } catch (error) {
@@ -57,10 +54,7 @@ function App() {
       };
       try {
         setAllUsersLoading(true);
-        const { data } = await axios.get(
-          "https://chat-app-beast.onrender.com/api/user/",
-          config
-        );
+        const { data } = await axios.get("/api/user/", config);
         setAllUsers(data);
         setAllUsersLoading(false);
       } catch (error) {
