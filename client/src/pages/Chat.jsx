@@ -24,7 +24,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
 
   //Socket Connection and arrival messages
   React.useEffect(() => {
-    socket.current = io("wss://localhost:8080");
+    socket.current = io("wss://chat-app-beast.onrender.com");
     socket.current.on("get-message", (data) => {
       setGetMessage({
         message: data.message,
