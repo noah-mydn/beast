@@ -1,3 +1,2 @@
-#Env file
-.env
 node_modules
+.env
