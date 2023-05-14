@@ -96,6 +96,6 @@ app.use("/api/message", messageRouter);
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
-  console.log("listening on port 8080");
+  //console.log("listening on port 8080");
   console.log(PORT);
 });
