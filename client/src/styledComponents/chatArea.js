@@ -60,7 +60,6 @@ export const ChatContent = styled(Box)({
   height: "80%",
   display: "flex",
   flexDirection: "column",
-  scrollbarWidth: "none",
   overflowY: "auto",
   scrollBehavior: "smooth",
   scrollbarWidth: "2px",

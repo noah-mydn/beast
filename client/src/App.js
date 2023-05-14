@@ -33,10 +33,7 @@ function App() {
             Authorization: `Bearer ${token}`,
           },
         };
-        const { data } = await axios.get(
-          `http://localhost:8080/api/chat/${userId}`,
-          config
-        );
+        const { data } = await axios.get(`/api/chat/${userId}`, config);
         setChats(data);
         setChatLoading(false);
       } catch (error) {

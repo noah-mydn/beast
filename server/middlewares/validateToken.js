@@ -20,8 +20,9 @@ const validateToken = async (req, res, next) => {
       next();
     } catch (error) {}
   } else {
-    res.status(401);
-    throw new Error("Not authorized, no token found");
+    res.status(401).send({
+      message: "Unauthorized Access",
+    });
   }
 };
 
