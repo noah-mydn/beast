@@ -34,7 +34,7 @@ function App() {
           },
         };
         const { data } = await axios.get(
-          `http://localhost:5000/api/chat/${userId}`,
+          `http://localhost:8080/api/chat/${userId}`,
           config
         );
         setChats(data);

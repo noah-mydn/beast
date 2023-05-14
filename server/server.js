@@ -8,45 +8,12 @@ const connectToDB = require("./mongodb/database");
 dotenv.config();
 connectToDB();
 
-//Routers
-const userRouter = require("./routes/userRoute");
-const chatRouter = require("./routes/chatRoute");
-const messageRouter = require("./routes/messageRoute");
-
 const app = express();
-app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-  })
-);
-
-app.use("/api/user", userRouter);
-app.use("/api/chat", chatRouter);
-app.use("/api/message", messageRouter);
-
-//Deployment
-const __dirname1 = path.resolve(__dirname, "..");
-
-if (process.env.NODE_ENV === "production") {
-  console.log(__dirname1);
-  app.use(express.static(path.join(__dirname1, "client/build")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"));
-  });
-} else {
-  app.get("/", (req, res) => {
-    res.send("API is running");
-  });
-}
-
-const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
   },
 });
 
@@ -65,16 +32,17 @@ const getUser = (userId) => {
   return activeUsers.find((user) => user.userId === userId);
 };
 
-//Connecting user with socket
+// Connecting user with socket
 io.on("connection", (socket) => {
   console.log("a user connected");
-  //Take userId and socketId when a user is connected
+
+  // Take userId and socketId when a user is connected
   socket.on("add-new-user", (userId) => {
     addUser(userId, socket.id);
     io.emit("get-online-users", activeUsers);
   });
 
-  //Send and Receive Messages
+  // Send and Receive Messages
   socket.on("send-message", ({ senderId, receiverId, message }) => {
     const user = getUser(receiverId);
     console.log(user);
@@ -86,7 +54,7 @@ io.on("connection", (socket) => {
     });
   });
 
-  //Disconnecting user with socket
+  // Disconnecting user with socket
   socket.on("disconnect", () => {
     console.log("A user is disconnected", socket.id);
     removeUser(socket.id);
@@ -94,7 +62,40 @@ io.on("connection", (socket) => {
   });
 });
 
+app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
+// Routers
+const userRouter = require("./routes/userRoute");
+const chatRouter = require("./routes/chatRoute");
+const messageRouter = require("./routes/messageRoute");
+
+app.use("/api/user", userRouter);
+app.use("/api/chat", chatRouter);
+app.use("/api/message", messageRouter);
+
+// Deployment
+const __dirname1 = path.resolve(__dirname, "..");
+
+if (process.env.NODE_ENV === "production") {
+  console.log(__dirname1);
+  app.use(express.static(path.join(__dirname1, "client/build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running");
+  });
+}
+
+const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
-  console.log("listening on port 5000");
+  console.log("listening on port 8080");
   console.log(PORT);
 });

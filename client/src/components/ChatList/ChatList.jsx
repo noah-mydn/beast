@@ -53,7 +53,7 @@ export const ChatList = ({
       };
 
       const { data } = await axios.get(
-        `http://localhost:5000/api/user/?search=${search}`,
+        `http://localhost:8080/api/user/?search=${search}`,
         config
       );
       setLoading(false);
@@ -90,7 +90,7 @@ export const ChatList = ({
         },
       };
       const { data } = await axios.post(
-        `http://localhost:5000/api/chat/`,
+        `http://localhost:8080/api/chat/`,
         { userId },
         config
       );

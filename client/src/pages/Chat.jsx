@@ -24,7 +24,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
 
   //Socket Connection and arrival messages
   React.useEffect(() => {
-    socket.current = io("ws://localhost:5000");
+    socket.current = io("ws://localhost:8080");
     socket.current.on("get-message", (data) => {
       setGetMessage({
         message: data.message,
@@ -82,7 +82,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:5000/api/message",
+        "http://localhost:8080/api/message",
         message,
         config
       );
@@ -111,7 +111,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
           },
         };
         const { data } = await axios.get(
-          `http://localhost:5000/api/message/${selectedChat?._id}`,
+          `http://localhost:8080/api/message/${selectedChat?._id}`,
           config
         );
         setMessages(data);

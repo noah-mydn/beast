@@ -89,7 +89,7 @@ export const Auth = ({ isMobile }) => {
       };
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/user/register",
+        "http://localhost:8080/api/user/register",
         registerFormData,
         config
       );
@@ -119,7 +119,7 @@ export const Auth = ({ isMobile }) => {
       };
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/user/login",
+        "http://localhost:8080/api/user/login",
         loginFormData,
         config
       );
