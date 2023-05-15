@@ -24,7 +24,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
 
   //Socket Connection and arrival messages
   React.useEffect(() => {
-    socket.current = io("https://beast-6bxl.onrender.com");
+    socket.current = io("https://beast-chat.onrender.com");
     socket.current.on("get-message", (data) => {
       setGetMessage({
         message: data.message,
