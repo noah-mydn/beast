@@ -41,11 +41,11 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 ##### Login Page
 
 ![Login Page](/assets/beast-1.png)
-![Login Page](/assets/beast-4.png)
+![Login Page](/assets/beast_4.png)
 
 ##### Chat interface
 
 ![Chat Interface](/assets/beast-2.png)
-![Chat Interface](/assets/beast-4.png)
+![Chat Interface](/assets/beast_3.png)
 
 Thank you for using BEAST! Happy chatting!
