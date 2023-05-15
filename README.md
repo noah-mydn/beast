@@ -38,14 +38,19 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 
 ### Screenshots
 
-##### Login Page
+##### Login
 
 ![Login Page](/assets/beast-1.png)
-![Login Page](/assets/beast_4.png)
+![Login Page](/assets/beast-3.png)
+
+##### Register
+
+![Register Page](/assets/beast-4.png)
+![Register Page](/assets/beast-6.png)
 
 ##### Chat interface
 
 ![Chat Interface](/assets/beast-2.png)
-![Chat Interface](/assets/beast_3.png)
+![Chat Interface](/assets/beast-5.png)
 
 Thank you for using BEAST! Happy chatting!
