@@ -7,6 +7,7 @@ import {
   TimeStamp,
 } from "../../styledComponents/chatArea";
 import { format } from "timeago.js";
+import { TypingAnimation } from "../TypingAnimation/TypingAnimation";
 
 export const ScrollableChat = ({
   user,

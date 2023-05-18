@@ -7,10 +7,8 @@ import {
   MainChatArea,
   TextRegion,
 } from "../../styledComponents/chatArea";
-import { IconButton, Typography } from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { IconButton, Typography, Box } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-
 import { ScrollableChat } from "../ScrollableChat/ScrollableChat";
 import InputEmoji from "react-input-emoji";
 
@@ -22,6 +20,7 @@ export const ChatArea = ({
   messageLoading,
   handleSend,
   handleChange,
+  showError,
 }) => {
   //Setting Scroll to last Message
   const scroll = React.useRef();
@@ -64,15 +63,29 @@ export const ChatArea = ({
         </Typography>
       </ChatTitle>
       <ChatContent>
-        <ScrollableChat
-          user={user}
-          messages={messages}
-          messageLoading={messageLoading}
-          newMessage={newMessage}
-          scroll={scroll}
-          friendInfo={friendInfo}
-          selectedChat={selectedChat}
-        />
+        {selectedChat && (
+          <ScrollableChat
+            user={user}
+            messages={messages}
+            messageLoading={messageLoading}
+            newMessage={newMessage}
+            scroll={scroll}
+            friendInfo={friendInfo}
+            selectedChat={selectedChat}
+          />
+        )}
+        {!selectedChat && (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="100%"
+          >
+            <Typography variant="h5" color="#dedede">
+              Choose a user to start chatting!
+            </Typography>
+          </Box>
+        )}
       </ChatContent>
       <TextRegion>
         <InputEmoji
@@ -80,9 +93,12 @@ export const ChatArea = ({
           onChange={handleChange}
           cleanOnEnter
           theme="light"
-          onEnter={handleSend}
+          onEnter={selectedChat ? handleSend : showError}
         />
-        <IconButton size="small" onClick={handleSend}>
+        <IconButton
+          size="small"
+          onClick={selectedChat ? handleSend : showError}
+        >
           <SendIcon color="text" />
         </IconButton>
       </TextRegion>

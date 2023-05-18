@@ -3,9 +3,10 @@ import React from "react";
 import { ChatList } from "../components/ChatList/ChatList";
 import { Navbar } from "../components/Navigation/Navbar";
 import { ChatArea } from "../components/ChatArea/ChatArea";
-import { ToastContainer } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { theme } from "../theme/theme";
 
 export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
   //For the chat
@@ -95,6 +96,25 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
     setNewMessage(newMessage);
   };
 
+  const showError = () => {
+    setNewMessage("");
+    //console.log("Not valid user");
+    toast.error("Select a user first to start chatting!", {
+      position: "top-right",
+      duration: 3000,
+      style: {
+        fontFamily: "Blinker",
+        background: theme.palette.primary.main,
+        color: "#fff",
+      },
+      // Aria
+      ariaProps: {
+        role: "status",
+        "aria-live": "polite",
+      },
+    });
+  };
+
   //Fetch Messages from api
   React.useEffect(() => {
     const fetchMessages = async () => {
@@ -133,7 +153,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
         background: "#efefef",
       }}
     >
-      <ToastContainer />
+      <Toaster />
       <Grid item md={4} height="100%" display={{ md: "block", xs: "none" }}>
         <ChatList
           IsTablet={IsTablet}
@@ -177,6 +197,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
             messageLoading={messageLoading}
             handleChange={handleChange}
             handleSend={handleSend}
+            showError={showError}
           />
         </Grid>
       </Grid>
