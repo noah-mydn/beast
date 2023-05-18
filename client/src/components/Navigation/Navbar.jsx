@@ -16,6 +16,7 @@ export const Navbar = ({
   setSelectedChat,
   messages,
   messageLoading,
+  onlineUsers,
 }) => {
   //For Drawer(Mobile ChatList)
   const [openDrawer, setOpenDrawer] = React.useState(false);
@@ -35,6 +36,7 @@ export const Navbar = ({
       setSelectedChat={setSelectedChat}
       messages={messages}
       messageLoading={messageLoading}
+      onlineUsers={onlineUsers}
     />
   );
 

@@ -165,6 +165,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
           setSelectedChat={setSelectedChat}
           messages={messages}
           messageLoading={messageLoading}
+          onlineUsers={onlineUsers}
         />
       </Grid>
 
@@ -178,6 +179,7 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
             selectedChat={selectedChat}
             setSelectedChat={setSelectedChat}
             messages={messages}
+            onlineUsers={onlineUsers}
           />
         </Grid>
         <Grid

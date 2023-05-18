@@ -16,6 +16,7 @@ import axios from "axios";
 import { SearchModal } from "../SearchModal/SearchModal";
 import { ChatSkeletons } from "../ChatSkeletons/ChatSkeletons";
 import { theme } from "../../theme/theme";
+import CircleIcon from "@mui/icons-material/Circle";
 
 export const ChatList = ({
   IsTablet,
@@ -23,10 +24,8 @@ export const ChatList = ({
   chats,
   setChats,
   chatLoading,
-  selectedChat,
   setSelectedChat,
-  messages,
-  messageLoading,
+  onlineUsers,
 }) => {
   const [search, setSearch] = React.useState("");
   const [keywordResult, setKeywordResult] = React.useState([]);
@@ -38,6 +37,8 @@ export const ChatList = ({
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+
+  console.log(onlineUsers);
 
   //Search Functions
   const handleSearch = async () => {
@@ -141,10 +142,14 @@ export const ChatList = ({
         {!chatLoading &&
           chats !== null &&
           chats?.map((chat) => {
+            const friend = friendInfo(chat)[0];
+            const isOnline = onlineUsers?.some(
+              (user) => user.userId === friend._id
+            );
             return (
               <ChatListItem
                 key={chat._id}
-                onClick={() => AccessChat(friendInfo(chat)[0]._id)}
+                onClick={() => AccessChat(friend._id)}
               >
                 <Box
                   component="img"
@@ -152,8 +157,8 @@ export const ChatList = ({
                   height={40}
                   borderRadius="50%"
                   sx={{ objectFit: "cover" }}
-                  src={friendInfo(chat)[0].profile}
-                  alt={friendInfo(chat)[0].username}
+                  src={friend.profile}
+                  alt={friend.username}
                 />
 
                 <Box
@@ -173,9 +178,30 @@ export const ChatList = ({
                       fontWeight: "bolder",
                     }}
                   >
-                    {friendInfo(chat)[0].username}
+                    {friend.username}
                   </Typography>
                 </Box>
+                {isOnline ? (
+                  <span
+                    style={{
+                      color: "#14b10a",
+                      fontFamily: "Blinker",
+                      fontSize: 14,
+                    }}
+                  >
+                    &nbsp;Online
+                  </span>
+                ) : (
+                  <span
+                    style={{
+                      color: "#bcbcbc",
+                      fontFamily: "Blinker",
+                      fontSize: 14,
+                    }}
+                  >
+                    &nbsp;Offline
+                  </span>
+                )}
               </ChatListItem>
             );
           })}
