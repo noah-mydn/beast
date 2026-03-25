@@ -6,6 +6,7 @@ import { Auth } from "./pages/Auth";
 import { Chat } from "./pages/Chat";
 import React from "react";
 import axios from "axios";
+import { CHATAPI, USERAPI } from "./api";
 
 function App() {
   const [allUsers, setAllUsers] = React.useState([]);
@@ -33,7 +34,7 @@ function App() {
             Authorization: `Bearer ${token}`,
           },
         };
-        const { data } = await axios.get(`/api/chat/${userId}`, config);
+        const { data } = await axios.get(`${CHATAPI}/${userId}`, config);
         setChats(data);
         setChatLoading(false);
       } catch (error) {
@@ -54,7 +55,7 @@ function App() {
       };
       try {
         setAllUsersLoading(true);
-        const { data } = await axios.get("/api/user/", config);
+        const { data } = await axios.get(`${USERAPI}/`, config);
         setAllUsers(data);
         setAllUsersLoading(false);
       } catch (error) {

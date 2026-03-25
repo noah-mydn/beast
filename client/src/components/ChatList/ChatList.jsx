@@ -17,6 +17,7 @@ import { SearchModal } from "../SearchModal/SearchModal";
 import { ChatSkeletons } from "../ChatSkeletons/ChatSkeletons";
 import { theme } from "../../theme/theme";
 import CircleIcon from "@mui/icons-material/Circle";
+import { CHATAPI, USERAPI } from "../../api";
 
 export const ChatList = ({
   IsTablet,
@@ -53,7 +54,7 @@ export const ChatList = ({
         },
       };
 
-      const { data } = await axios.get(`/api/user/?search=${search}`, config);
+      const { data } = await axios.get(`${USERAPI}/?search=${search}`, config);
       setLoading(false);
       setKeywordResult(data);
       setIsModalOpen(true);
@@ -87,7 +88,7 @@ export const ChatList = ({
           Authorization: `Bearer ${user?.token}`,
         },
       };
-      const { data } = await axios.post(`/api/chat/`, { userId }, config);
+      const { data } = await axios.post(`${CHATAPI}/`, { userId }, config);
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
       setAccessChatLoading(false);

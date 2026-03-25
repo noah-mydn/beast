@@ -95,7 +95,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const PORT = process.env.PORT || 8080;
-server.listen(PORT, () => {
+//server.listen(PORT, () => {
   //console.log("listening on port 8080");
-  console.log(PORT);
+  server.listen("https://beast-chat.onrender.com/", () => {
+  console.log("Server is running!");
 });

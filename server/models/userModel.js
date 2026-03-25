@@ -28,6 +28,11 @@ const UserSchema = mongoose.Schema(
       type: String,
       default: DEFAULT_IMAGE,
     },
+    publicKey: {
+      type: String,
+      required: true,
+     
+    }
   },
   {
     timestamps: true,
@@ -39,7 +44,8 @@ UserSchema.statics.register = async function (
   username,
   email,
   password,
-  profile
+  profile,
+  publicKey
 ) {
   //validation
   if (!username || !email || !password) {
@@ -77,6 +83,7 @@ UserSchema.statics.register = async function (
     email,
     password: hashedPassword,
     profile,
+    publicKey,
   });
 
   return user;
@@ -84,21 +91,18 @@ UserSchema.statics.register = async function (
 
 //static login method
 UserSchema.statics.login = async function (username, password) {
-  //validation
   if (!username || !password) {
     throw Error("All fields must be filled");
   }
 
   const user = await this.findOne({ username });
-
   if (!user) {
-    throw Error("The username is incorrect or not registered!");
+    throw Error("Incorrect username");
   }
 
   const match = await bcrypt.compare(password, user.password);
-
   if (!match) {
-    throw Error("The password is incorrect!");
+    throw Error("Incorrect password");
   }
 
   return user;

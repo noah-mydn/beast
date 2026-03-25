@@ -48,10 +48,12 @@ export const Chat = ({ IsTablet, user, chats, setChats, chatLoading }) => {
 
   //Checking online users
   React.useEffect(() => {
+    if(socket.current){
     socket.current.emit("add-new-user", user?.data._id);
     socket.current.on("get-online-users", (users) => {
       setOnlineUsers(users);
     });
+    }
   });
 
   //Sending Messages

@@ -10,9 +10,9 @@ const createToken = (_id) => {
 
 //Registering new User
 exports.RegisterNewUser = async (req, res) => {
-  const { username, email, password, profile } = req.body;
+  const { username, email, password, profile, publicKey } = req.body;
   try {
-    const user = await User.register(username, email, password, profile);
+    const user = await User.register(username, email, password, profile, publicKey);
     //create a token
     const token = createToken(user._id);
     const responseData = {
@@ -20,6 +20,7 @@ exports.RegisterNewUser = async (req, res) => {
       username: user.username,
       email: user.email,
       profile: user.profile,
+      publicKey: user.publicKey,
     };
     res.status(201).json({
       status: "success",

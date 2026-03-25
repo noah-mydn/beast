@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://beast-chat.onrender.com/" });
 
 export const createChat = (data) => API.post("/chat/", data);
 
